@@ -3,14 +3,11 @@ import numpy as np
 
 viz = Visdom()
 
-log_num = 0
 
-def update_viz(reward, log_eps_iter):
-    global log_num
-    log_num+=1
+def update_viz(episode, reward):
 
     viz.line(
-        X=np.array([log_num * log_eps_iter]),
+        X=np.array([episode]),
         Y=np.array([reward]),
         win="Policy Gradient",
         update='append',
