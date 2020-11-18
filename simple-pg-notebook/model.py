@@ -5,6 +5,7 @@ class DiscretePolicy(nn.Module):
     def __init__(self, n_obs, n_acts, n_hidden):
         super().__init__()
 
+        # Regular neural network composed of dense layers
         self.layers = nn.Sequential(
             nn.Linear(n_obs, n_hidden),
             nn.ReLU(),
@@ -14,13 +15,16 @@ class DiscretePolicy(nn.Module):
         )
 
     def get_distribution(self, s):
+        """Use NN outputs as probabilities"""
         logits = self.layers(s)
         return Categorical(logits=logits)
 
     def log_prob(self, s, a):
+        """Log-probability of a given action"""
         return self.get_distribution(s).log_prob(a)
 
     def forward(self, s):
+        """Pick a single action"""
         return self.get_distribution(s).sample()
 
 
